@@ -3,6 +3,8 @@ package ua.kpi.tef.controller;
 import ua.kpi.tef.model.Model;
 import ua.kpi.tef.view.View;
 
+import java.util.Scanner;
+
 public class Controller {
 
     private Model model;
@@ -13,7 +15,9 @@ public class Controller {
         this.view = view;
     }
 
-    public void processUser()  {
-        //TODO
+    public void processUser() {
+        Scanner scanner = new Scanner(System.in);
+        model.saveNote(new Utils(view, scanner).inputNewNoteToNoteBook());
+        View.print(model.getNoteBook().toString());
     }
 }
