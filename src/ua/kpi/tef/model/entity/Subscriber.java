@@ -4,14 +4,12 @@ public class Subscriber {
     private String surname;
     private String name;
     private String patronymic;
-    private String nickName;
     private String fullName;
 
-    public Subscriber(String surname, String name, String patronymic, String nickName) {
+    public Subscriber(String surname, String name, String patronymic) {
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
-        this.nickName = nickName;
     }
 
     public String getSurname() {
@@ -38,14 +36,6 @@ public class Subscriber {
         this.patronymic = patronymic;
     }
 
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
     public String getFullName() {
         return surname + " " + name.substring(0,1) + ".";
     }
@@ -53,14 +43,13 @@ public class Subscriber {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Subscriber)) return false;
 
         Subscriber that = (Subscriber) o;
 
         if (!surname.equals(that.surname)) return false;
         if (!name.equals(that.name)) return false;
-        if (!patronymic.equals(that.patronymic)) return false;
-        return nickName.equals(that.nickName);
+        return patronymic.equals(that.patronymic);
     }
 
     @Override
@@ -68,7 +57,6 @@ public class Subscriber {
         int result = surname.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + patronymic.hashCode();
-        result = 31 * result + nickName.hashCode();
         return result;
     }
 
@@ -78,8 +66,6 @@ public class Subscriber {
                 "surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
                 ", patronymic='" + patronymic + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", fullName='" + getFullName() + '\'' +
                 '}';
     }
 }

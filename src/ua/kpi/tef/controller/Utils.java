@@ -1,5 +1,6 @@
 package ua.kpi.tef.controller;
 
+import ua.kpi.tef.exceptions.NickNameAlreadyExistException;
 import ua.kpi.tef.model.Model;
 import ua.kpi.tef.model.entity.*;
 import ua.kpi.tef.view.View;
@@ -8,11 +9,13 @@ import java.util.Scanner;
 
 public class Utils {
     private View view;
+    private Model model;
     private Scanner scanner;
 
-    public Utils(View view, Scanner scanner) {
-        this.scanner = scanner;
+    public Utils(View view, Model model, Scanner scanner) {
         this.view = view;
+        this.model = model;
+        this.scanner = scanner;
     }
 
     private String inputValueStringWithRegex(String regex) {
@@ -24,12 +27,25 @@ public class Utils {
         return value;
     }
 
+    public void saveNoteWithUniqueNickName() {
+        boolean saved = false;
+        Note note = inputNewNoteToNoteBook();
+        while (!saved) {
+            try {
+                model.saveNote(note);
+                saved = true;
+            } catch (NickNameAlreadyExistException e) {
+                view.showWrongNickName();
+                note = inputAnotherNickName(note);
+            }
+        }
+    }
 
-
-    public Note inputNewNoteToNoteBook() {
+    private Note inputNewNoteToNoteBook() {
 
         Note note = new Note();
         note.setSubscriber(inputNewSubscriber());
+        note.setNickName(inputNickName());
         note.setSubscriberContacts(inputSubscribersContacts());
         note.setGroup(inputGroupForSubscriber());
         note.setAddress(inputAddressForSubscriber());
@@ -38,11 +54,15 @@ public class Utils {
         return note;
     }
 
+    private Note inputAnotherNickName(Note note) {
+        note.setNickName(inputNickName());
+        return note;
+    }
+
     private Subscriber inputNewSubscriber() {
         String name;
         String surname;
         String patronymic;
-        String nickName;
 
         view.inputName();
         name = inputValueStringWithRegex(RegularExpressions.REG_NAME);
@@ -50,11 +70,17 @@ public class Utils {
         surname = inputValueStringWithRegex(RegularExpressions.REG_NAME);
         view.inputPatronymic();
         patronymic = inputValueStringWithRegex(RegularExpressions.REG_NAME);
-        view.inputNickname();
-        nickName = inputValueStringWithRegex(RegularExpressions.REG_NICKNAME);
 
-        return new Subscriber(name, surname, patronymic, nickName);
+
+        return new Subscriber(name, surname, patronymic);
     }
+
+    private String inputNickName() {
+        view.inputNickname();
+        return inputValueStringWithRegex(RegularExpressions.REG_NICKNAME);
+    }
+
+
 
     private SubscriberContacts inputSubscribersContacts() {
         String homeNumber;

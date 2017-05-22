@@ -21,6 +21,10 @@ public class View {
         print(StringConstants.WRONG_INPUT_DATA);
     }
 
+    public void showWrongNickName() {
+        print(StringConstants.WRONG_NICKNAME);
+    }
+
     public void inputName() { print(StringConstants.INPUT_NAME); }
 
     public void inputSurname() { print(StringConstants.INPUT_SURNAME); }

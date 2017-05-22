@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Note {
     private Subscriber subscriber;
+    private String nickName;
     private SubscriberContacts subscriberContacts;
     private Group group;
     private Address address;
@@ -36,7 +37,9 @@ public class Note {
     public String getComment() {
         return comment;
     }
-
+    public String getNickName() {
+        return nickName;
+    }
 
     public void setSubscriber(Subscriber subscriber) {
         this.subscriber = subscriber;
@@ -61,6 +64,10 @@ public class Note {
     public void setComment(String comment) {
         this.comment = comment;
         timeLastModification = Calendar.getInstance().getTime();
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     @Override

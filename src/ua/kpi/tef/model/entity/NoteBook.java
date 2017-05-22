@@ -1,14 +1,38 @@
 package ua.kpi.tef.model.entity;
 
+import ua.kpi.tef.exceptions.NickNameAlreadyExistException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class NoteBook {
     private List<Note> notes = new ArrayList<>();
 
-    //only add note operation.
-    public void addNewNote(Note note) {
+
+
+    public NoteBook() {
+        initWithFakeNote();
+    }
+
+    private void initWithFakeNote() {
+        Note note = new Note();
+        note.setNickName("nick");
+        note.setAddress(new Address("65443", "Kiev", "Street", "43", "432"));
+        note.setComment("Blah");
+        note.setGroup(Group.FAMILY);
+        note.setSubscriber(new Subscriber("Dad", "Dadov", "Fres"));
+        note.setSubscriberContacts(new SubscriberContacts("07654543", "+3(076)4324333", "+3(076)4324333", "serg@io.ua", "skype" ));
         notes.add(note);
+    }
+
+    //only add note operation.
+    public boolean addNewNote(Note note) throws NickNameAlreadyExistException {
+        for (Note n: notes) {
+            if (n.getNickName().equals(note.getNickName())) {
+                throw new NickNameAlreadyExistException(note);
+            }
+        }
+        return notes.add(note);
     }
 
     @Override

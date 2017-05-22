@@ -17,7 +17,10 @@ public class Controller {
 
     public void processUser() {
         Scanner scanner = new Scanner(System.in);
-        model.saveNote(new Utils(view, scanner).inputNewNoteToNoteBook());
+        Utils utils = new Utils(view, model, scanner);
+
+        utils.saveNoteWithUniqueNickName();
+
         View.print(model.getNoteBook().toString());
     }
 }
