@@ -18,15 +18,6 @@ public class Utils {
         this.scanner = scanner;
     }
 
-    private String inputValueStringWithRegex(String regex) {
-        String value = scanner.next();
-        while (!(value.matches(regex))) {
-            view.showWrongInput();
-            value = scanner.next();
-        }
-        return value;
-    }
-
     public void saveNoteWithUniqueNickName() {
         boolean saved = false;
         Note note = inputNewNoteToNoteBook();
@@ -41,8 +32,16 @@ public class Utils {
         }
     }
 
-    private Note inputNewNoteToNoteBook() {
+    private String inputValueStringWithRegex(String regex) {
+        String value = scanner.next();
+        while (!(value.matches(regex))) {
+            view.showWrongInput();
+            value = scanner.next();
+        }
+        return value;
+    }
 
+    private Note inputNewNoteToNoteBook() {
         Note note = new Note();
         note.setSubscriber(inputNewSubscriber());
         note.setNickName(inputNickName());
@@ -71,7 +70,6 @@ public class Utils {
         view.inputPatronymic();
         patronymic = inputValueStringWithRegex(RegularExpressions.REG_NAME);
 
-
         return new Subscriber(name, surname, patronymic);
     }
 
@@ -79,8 +77,6 @@ public class Utils {
         view.inputNickname();
         return inputValueStringWithRegex(RegularExpressions.REG_NICKNAME);
     }
-
-
 
     private SubscriberContacts inputSubscribersContacts() {
         String homeNumber;
@@ -145,7 +141,6 @@ public class Utils {
 
     private String inputComment() {
         String comment;
-
         view.inputComment();
 
         while (true) {
@@ -155,5 +150,4 @@ public class Utils {
             }
         }
     }
-
 }
